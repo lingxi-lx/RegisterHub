@@ -20,11 +20,4 @@ fi
 PORT="${1:-18886}"
 URL="http://127.0.0.1:${PORT}"
 echo "[*] Starting RegisterHub Web Workbench at ${URL} ..."
-
-if command -v open >/dev/null 2>&1; then
-  (sleep 2 && open "$URL") >/dev/null 2>&1 &
-elif command -v xdg-open >/dev/null 2>&1; then
-  (sleep 2 && xdg-open "$URL") >/dev/null 2>&1 &
-fi
-
-exec "$PYTHON_BIN" main.py --web --port "$PORT"
+exec "$PYTHON_BIN" main.py --web --port "$PORT" --open

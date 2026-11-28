@@ -94,8 +94,8 @@ python main.py demo
    - 单元测试覆盖：全部通过
    - 离线靶场验证：通过 (Task [1/1] finished successfully)
 3. 立即启动使用：
-   - 可视化工作台（推荐）：双击 run_web.bat 或运行 python main.py --web（访问 http://127.0.0.1:18886）
-   - 命令行单站运行：python main.py --run <site_name>（内置示例: demo, automation_exercise，或通过 --scaffold / Web「AI 对话」派生新站）
+   - 可视化工作台（推荐）：双击 run_web.bat 或运行 python main.py --web --open（就绪自动打开 http://127.0.0.1:18886，含独立单屏「Token 消耗」看板 /usage 与内置 AI 对话）
+   - 命令行单站运行：python main.py --run <site_name>（内置示例: demo, automation_exercise，或通过 --scaffold / --from-har / Web「AI 对话」派生新站）
    - 交互式运行菜单：双击运行 run.bat
 4. 开发者交流与 Pro 多并发版咨询：
    - QQ 交流群：1130324020 | Discord：https://discord.gg/USnVJ9YQX

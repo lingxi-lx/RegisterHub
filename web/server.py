@@ -1148,12 +1148,20 @@ class LiteRequestHandler(BaseHTTPRequestHandler):
         if studio_bridge.handle_studio_get(self, sys.modules[__name__], path, qs):
             return
 
+        if path == "/health":
+            from core import __version__ as _comm_ver
+
+            self._send_json({"ok": True, "edition": "community", "version": _comm_ver})
+            return
+
         if path == "/api/meta":
+            from core import __version__ as _comm_ver
+
             self._send_json({
                 "edition": "community",
                 "brand": "RegisterHub Lite",
                 "subtitle": "Open-Source Automation Workbench",
-                "version": "2.0.0",
+                "version": _comm_ver,
                 "concurrency_mode": "single-thread",
             })
             return
@@ -2311,16 +2319,40 @@ def create_server(host: str = "127.0.0.1", port: int = 18886) -> ThreadingHTTPSe
     return ThreadingHTTPServer((host, port), LiteRequestHandler)
 
 
-def start_server(host: str = "127.0.0.1", port: int = 18886) -> None:
+def _open_browser_when_ready(url: str, health_url: str, timeout_s: float = 10.0) -> None:
+    """Wait until local /health returns HTTP 200 before opening browser (zero blind sleep)."""
+    import webbrowser
+
+    deadline = time.monotonic() + max(1.0, float(timeout_s))
+    opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+    while time.monotonic() < deadline:
+        try:
+            with opener.open(health_url, timeout=1.0) as resp:
+                if getattr(resp, "status", 0) == 200:
+                    webbrowser.open(url)
+                    return
+        except Exception:
+            time.sleep(0.15)
+
+
+def start_server(host: str = "127.0.0.1", port: int = 18886, open_browser: bool = False) -> None:
     """Start RegisterHub Lite Web Workbench on loopback."""
     srv = create_server(host=host, port=port)
+    actual_port = int(srv.server_address[1])
+    base_url = f"http://{host}:{actual_port}"
     print("=" * 68)
-    print(f"  RegisterHub Lite Workbench -> http://{host}:{port}")
+    print(f"  RegisterHub Lite Workbench -> {base_url}")
     print("  Open-Source Single-Thread Edition (Press Ctrl+C to stop)")
     if not os.environ.get("REGISTERHUB_NO_BANNER", "").strip():
         print("  Community & Pro: QQ Group 1130324020 | Discord https://discord.gg/USnVJ9YQX")
         print("  GitHub (Star!):  https://github.com/waw666waw666/RegisterHub")
     print("=" * 68, flush=True)
+    if open_browser:
+        threading.Thread(
+            target=_open_browser_when_ready,
+            args=(base_url, f"{base_url}/health"),
+            daemon=True,
+        ).start()
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

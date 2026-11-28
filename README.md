@@ -10,7 +10,8 @@
   <a href="DISCLAIMER.zh.md"><img src="https://img.shields.io/badge/Disclaimer-Legal%20Terms-red.svg?style=flat-square" alt="Disclaimer"></a>
   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.10%2B-3776ab.svg?style=flat-square&logo=python&logoColor=white" alt="Python Version"></a>
   <a href="https://playwright.dev/"><img src="https://img.shields.io/badge/Playwright-Engine-2EAD33.svg?style=flat-square&logo=playwright&logoColor=white" alt="Playwright"></a>
-  <a href="tests/"><img src="https://img.shields.io/badge/Tests-50%2B%20Passing-brightgreen.svg?style=flat-square" alt="Tests"></a>
+  <a href="tests/"><img src="https://img.shields.io/badge/Tests-72%20Passing-brightgreen.svg?style=flat-square" alt="Tests"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/Release-v1.3.1-0969da.svg?style=flat-square" alt="Release"></a>
   <a href="https://waw666waw666.github.io/registerhub-demo/"><img src="https://img.shields.io/badge/Live%20Demo-在线交互演示-10b981.svg?style=flat-square" alt="Live Demo"></a>
   <a href="#开发者社区与交流"><img src="https://img.shields.io/badge/QQ%20交流群-1130324020-12B7F5.svg?style=flat-square&logo=tencentqq&logoColor=white" alt="QQ Group"></a>
   <a href="https://discord.gg/USnVJ9YQX"><img src="https://img.shields.io/badge/Discord-加入社区-5865F2.svg?style=flat-square&logo=discord&logoColor=white" alt="Discord"></a>
@@ -19,6 +20,7 @@
 <p align="center">
   <a href="./README.md">简体中文</a> |
   <a href="./README_EN.md">English</a> |
+  <a href="./CHANGELOG.md">更新日志</a> |
   <a href="https://waw666waw666.github.io/registerhub-demo/">在线交互演示 (Live Demo)</a> |
   <a href="#社区开源版-vs-pro-商业旗舰版-open-core">社区版 vs Pro</a> |
   <a href="#开发者社区与交流">开发者社群</a>
@@ -36,10 +38,14 @@
 
 传统自动化脚本往往只有命令行黑框、硬绑死单个网站、或者强依赖一整套 Docker / 第三方收费打码接码平台。**RegisterHub 开源社区版** 把整套生产级工作台做成**零 Docker、零 Node.js、纯 Python 标准库驱动**，开箱即用：
 
-- **零外部依赖的桌面级 Studio 工作台**：双击 `run_web.bat`（macOS/Linux 运行 `./run_web.sh`）或执行 `python main.py --web`，即刻打开支持**暗色 / 浅色一键切换**与多套经典配色的全功能控制面板（`http://127.0.0.1:18886`）。
+- **零外部依赖的桌面级 Studio 工作台**：双击 `run_web.bat`（macOS/Linux 运行 `./run_web.sh`）或执行 `python main.py --web --open`，服务就绪后自动拉起支持**暗色 / 浅色一键切换**与多套经典配色的全功能控制面板（`http://127.0.0.1:18886`），内置原版 **6 色半透明彩色玻璃视窗标定台**。
+- **独立单屏「Token 消耗」全景看板（`/usage`）与永久小时账本**：
+  - 一级导航直达、桌面端锁定单屏零外层滚动，支持 `24h / 近 7 天 / 近 30 天 / 全部`、`按日 / 按时`、`Token 量 / 参考费用 / 调用次数` 与按渠道/模型双向交叉筛选；
+  - 内置缓存读 / 直算入 / 缓存写 / 模型输出分层堆叠趋势图、缓存省流测算、**近 12 周 GitHub 风格日历热力图**、模型/渠道/会话多维排行、一键跳转调用日志与 CSV / JSON 导出；
+  - 底层由跨进程原子写的永久小时账本（`results/llm_usage_hourly.json`）驱动，并支持按游标自动增量回填历史 `llm_calls.jsonl`，重启或日志滚动均不丢账；仪表盘同步呈现「近 7 日 LLM Token 消耗」KPI 卡片。
 - **真能自主跑通新站的内置流式 AI Agent**：
-  - 支持 **OpenAI Chat / Anthropic Messages / OpenAI Responses** 三协议真 SSE 流式输出，内置 **Prompt Cache 前缀锁**、实时 `缓存命中率 / 首字延迟 TTFT / 吞吐 tok/s` 遥测与 85% 自动上下文压缩；
-  - 内置 **16 项实战工具**（URL 协议探测、HAR 抓包提炼、AST 校验写/改适配器、单线程试跑、黑匣子读错、内置双池管理、台账验活等）、**5 套可在线编辑工程技能**（`skills/*.md`）、步级代码检查点一键回滚、安全审批护栏、`/goal` 目标直通长跑闭环与不打断主任务的流式 `/btw` 旁路提问；
+  - 支持 **OpenAI Chat / Anthropic Messages / OpenAI Responses** 三协议真 SSE 流式输出，内置 **Prompt Cache 前缀锁**、**按厂商原生能力自适应的思考强度条与渠道一键实测**（GPT-5 / Claude / Gemini / DeepSeek / Qwen / GLM）、实时 `缓存命中率 / 首字延迟 TTFT / 吞吐 tok/s` 遥测与 85% 自动上下文压缩；
+  - 内置 **16 项实战工具**（URL 协议探测、HAR 抓包提炼、AST 校验写/改适配器、单线程试跑、黑匣子读错、内置双池管理、台账验活等）、**5 套可在线编辑工程技能**（`skills/*.md`）、步级代码检查点一键回滚、**脱敏接力单（Handoff）一键分享与导入续跑**、单渠道凭据导出、安全审批护栏、`/goal` 目标直通长跑闭环与不打断主任务的流式 `/btw` 旁路提问；
   - 默认严格遵循 **`AGENTS.md` 三级选型铁律（协议优先 ➔ 无头优先 ➔ 混合取票）** 与五段式高信号交付。
 - **开箱内置加密邮箱池 & 代理池（零 Docker）**：
   - **内置邮箱池**：本地 SQLite WAL + Windows DPAPI 加密保护，支持混合粘贴导入 **Outlook OAuth2（Graph API / IMAP-XOAUTH2 自动切换）**、**iCloud 接码链接** 与通用 IMAP，内置**工业级自包含验证码提取引擎**（多候选置信度打分 + 过滤邮编/地址/页脚误报），支持收件箱全文实时预览与事务租约；
@@ -57,31 +63,31 @@
   <tr>
     <td width="50%">
       <img src="docs/screenshots/01-dashboard.png" alt="仪表盘总览" />
-      <p align="center"><b>仪表盘总览（暗色主题）</b>：全站 KPI、14 日趋势图、Key 资产构成与站点排行</p>
+      <p align="center"><b>仪表盘总览（暗色主题）</b>：全站 KPI（含近 7 日 Token 消耗卡片）、14 日趋势图与 Key 分布</p>
     </td>
     <td width="50%">
-      <img src="docs/screenshots/02-agent-chat.png" alt="全自主 AI 对话" />
-      <p align="center"><b>全自主 AI 对话</b>：协议探测 ➔ 写适配器 ➔ 试跑闭环，实时缓存与吞吐遥测</p>
+      <img src="docs/screenshots/07-token-usage.png" alt="Token 消耗全景看板" />
+      <p align="center"><b>独立单屏 Token 消耗看板（`/usage`）</b>：分层趋势图、缓存省流测算、12 周热力图与会话排行</p>
     </td>
   </tr>
   <tr>
+    <td width="50%">
+      <img src="docs/screenshots/02-agent-chat.png" alt="全自主 AI 对话" />
+      <p align="center"><b>全自主 AI 对话</b>：协议探测 ➔ 写适配器 ➔ 试跑闭环，实时缓存与自适应思考强度条</p>
+    </td>
     <td width="50%">
       <img src="docs/screenshots/03-fleet.png" alt="站点任务舰队" />
       <p align="center"><b>站点任务舰队（亮色主题）</b>：按站精准归属、Key (N) 直达、文件定位与单线程试跑</p>
     </td>
+  </tr>
+  <tr>
     <td width="50%">
       <img src="docs/screenshots/04-builtin-mail.png" alt="内置邮箱池与实时提码" />
       <p align="center"><b>内置邮箱池 + 实时收件箱提码</b>：Outlook / iCloud / IMAP 混合纳管与验证码高亮复制</p>
     </td>
-  </tr>
-  <tr>
     <td width="50%">
       <img src="docs/screenshots/05-builtin-proxies.png" alt="内置代理池与 IP 打分" />
       <p align="center"><b>内置代理池 + IP 纯净度打分</b>：静态 / 动态住宅网关 / API 提取源与 S/A 级测活</p>
-    </td>
-    <td width="50%">
-      <img src="docs/screenshots/06-tools.png" alt="全栈开发工具箱" />
-      <p align="center"><b>全栈开发工具箱</b>：多国实测门牌身份、Luhn 虚拟卡、2FA TOTP 与四合一扩展指纹</p>
     </td>
   </tr>
 </table>
@@ -111,9 +117,9 @@ pip install -r requirements.txt
 # 2. 安装浏览器内核（可选再执行 `pip install patchright` 自动开启零 Runtime.enable 隐匿）
 playwright install chromium
 
-# 3. 启动零依赖 Web 工作台（Windows 也可直接双击 run_web.bat）
-python main.py --web
-# 浏览器打开 http://127.0.0.1:18886
+# 3. 启动零依赖 Web 工作台（就绪后自动打开浏览器，Windows 也可双击 run_web.bat）
+python main.py --web --open
+# 或手动访问 http://127.0.0.1:18886
 ```
 
 ### 方式 C：3 秒纯离线基线自测（无需网络与代理）
@@ -153,7 +159,10 @@ RegisterHub/
 │   ├── adapter.py         # 抽象适配器基类 (BaseSiteAdapter) 与生命周期契约
 │   ├── ai_agent.py        # 纯标准库单线程自主 AI Agent（16 工具 / 缓存前缀锁 / 检查点 / 护栏）
 │   ├── llm_client.py      # 三协议真 SSE 流式模型客户端与 Cache / TTFT / tok/s 遥测
+│   ├── llm_context.py     # 多厂商模型上下文窗口与原生思考强度能力推断/实测引擎
 │   ├── llm_profiles.py    # 多模型供应商与 API Key 轮询配置管理
+│   ├── llm_usage.py       # 永久小时级 Token 用量账本 (JsonHourlyUsageStore)、游标回填与省流估算
+│   ├── session_handoff.py # 会话脱敏接力单 (Handoff) 生成、凭据剥离与导入解析
 │   ├── mail_builtin.py    # 零 Docker 内置邮箱池（SQLite WAL + DPAPI + 工业级验证码提取）
 │   ├── proxy_builtin.py   # 零依赖内置代理池（静态 / 动态住宅网关 / API 提取源）
 │   ├── ip_scorer.py       # 出口 IP 住宅属性与风控纯净度评分器
@@ -176,7 +185,8 @@ RegisterHub/
 ├── sites/                 # 纯净示范适配器（_template / demo_site / automation_exercise）
 ├── web/                   # 纯标准库 HTTP/SSE 后端 (server.py / studio_bridge.py) 与前端产物 (dist/)
 ├── docs/                  # 视窗标定文档与界面实景截图
-├── tests/                 # 50+ 单元与回归自动化测试套件
+├── tests/                 # 72 项单元与回归自动化测试套件
+├── CHANGELOG.md           # 版本演进与更新日志
 ├── AGENTS.md              # AI 协同工程军规与五段式汇报契约
 ├── CLAUDE.md              # Claude Code 自动加载入口
 ├── SETUP_FOR_AI.md        # AI 一句话全自动装环境验收协议
@@ -233,14 +243,14 @@ RegisterHub/
 
 | 能力维度 | RegisterHub 开源社区版（永久免费） | AutoRegister Pro 商业旗舰版 |
 | :--- | :--- | :--- |
-| **Web 工作台 & 全自主 AI Agent** | ✅ 完整开放（三协议流式 / 16 工具 / 5 Skills / `/goal` / `/btw`） | ✅ 完整开放 + 多站工程级调度面板 |
+| **Web 工作台、Token 看板 & AI Agent** | ✅ 完整开放（含 `/usage` 单屏看板 / 三协议流式 / 16 工具 / 5 Skills / 自适应思考条 / 脱敏接力单） | ✅ 完整开放 + 19 工具多站调度 + 多协议熔断池 |
 | **内置加密邮箱池 & 代理池** | ✅ 零 Docker 完整开放（Outlook / iCloud / IMAP + 静态 / 住宅 / API 提取） | ✅ 完整开放 + **Cloudflare 通配企业域 Catch-all** + **受控机场订阅内核托管** |
 | **多通道并发调度池 (`-c 2 / 4 / 8`)** | ❌ 仅确定性单线程串行执行 | ✅ **多通道并发调度池 + 共享待跑队列** |
 | **无人值守定时 & 水位补货** | ❌ 仅手动单次触发 | ✅ **后台定时轮询 & Key 水位线自动补货调度器** |
 | **失败分诊与软失败回炉** | ❌ 仅黑匣子日志与截图查看 | ✅ **自动区分死号 / 限流软失败，软失败一键原子回炉重跑** |
 | **商业打码 API 协议桥接** | ❌ 仅离线 OpenCV 滑块 + 人工协同 | ✅ **原生集成 CapSolver / 2Captcha / YesCaptcha 自动取票** |
-| **实时告警与下游网关纳管** | ❌ 仅本地台账 + CSV / JSON / Bitwarden 导出 | ✅ **企微 / 飞书 / Telegram / Discord 告警 + One-API / New-API 渠道一键批量导出** |
-| **预置高价值商业平台适配器** | ❌ 仅 3 个纯净示范基准（另附 5 个独立开源派生仓） | ✅ **预置 11+ 高价值 AI 平台实战适配器 + 社群专属同步更新** |
+| **实时告警与下游网关纳管** | ❌ 仅本地台账 + CSV / JSON / Bitwarden 导出 | ✅ **企微 / 飞书 / Telegram / Discord 告警 + One-API / New-API / gpt-load 批量导出** |
+| **多认证栈范本与极速打新** | ✅ 3 个纯净示范基准（另附 5 个独立开源派生仓） | ✅ **3 套核心对抗范本（纯协议 / OpenCV 滑块 / Clerk OTP）+ `_template.py` 标准脚手架** |
 
 > 个人体验与单路开发，直接用本开源社区版即可；如需 **AutoRegister Pro** 演示、授权或站点定制交流，欢迎直接进群：  
 > **QQ 交流群：`1130324020`** ｜ **Discord：[点击加入社区](https://discord.gg/USnVJ9YQX)**
@@ -259,16 +269,17 @@ RegisterHub/
 
 ### 常用命令行 (CLI)
 ```bash
-python main.py --web                                # 启动 Web 工作台 (:18886；设 REGISTERHUB_NO_BANNER=1 可静默横幅)
+python main.py --web --open                         # 启动 Web 工作台 (:18886，就绪自动打开浏览器；设 REGISTERHUB_NO_BANNER=1 静默横幅)
 python main.py --list                               # 查看全部已装载适配器
 python main.py --scaffold my_site --url https://... # 嗅探目标表单并生成适配器骨架
+python main.py --from-har cap.har --site my_site --har-out sites/my_site.py  # 从 HAR 抓包提炼纯协议骨架
 python main.py --run my_site --count 1              # 单线程执行指定适配器
 python main.py --run demo --cdp http://127.0.0.1:9222  # 桥接外部指纹浏览器 / 本地 Chrome
 python main.py --auto-layout                        # 自动生成 6 套跨分辨率防切割视窗预设
 python main.py --demo-layouts --demo-sec 8          # 真机轮播巡演 6 套视窗布局
 python main.py --calibrate -c 2                     # 交互式手工微调视窗几何与缩放
 python main.py export --export bitwarden            # 导出资产 (bitwarden / csv / json)
-pytest tests/ -q                                    # 运行全量 50+ 单元与回归测试
+pytest tests/ -q                                    # 运行全量 72 项单元与回归测试
 ```
 
 </details>

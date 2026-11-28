@@ -93,11 +93,13 @@ def _parse_bool_qs(qs: Dict[str, List[str]], key: str) -> bool:
     return str((qs.get(key) or ["0"])[0]).strip().lower() in ("1", "true", "yes", "on")
 
 
+from core import __version__ as _COMMUNITY_VERSION
+
 COMMUNITY_META: Dict[str, Any] = {
     "edition": "community",
     "brand": "RegisterHub",
     "subtitle": "开源社区工作台",
-    "version": "2.1.0",
+    "version": _COMMUNITY_VERSION,
     "features": {
         "fleet": True,
         "materials": False,
@@ -3026,6 +3028,35 @@ def handle_studio_post(handler: Any, srv: Any, path: str, body: Dict[str, Any]) 
             handler._send_json({"detail": "动态住宅网关不存在或已禁用"}, status=404)
             return True
         handler._send_json({"entry": entry})
+        return True
+
+    if path == "/api/services/proxies/import":
+        from core.secrets import sanitize_error_text
+
+        store = _get_builtin_proxy_store(srv)
+        raw_text = str(body.get("text") or "")
+        if not raw_text.strip() or len(raw_text) > 1_000_000:
+            handler._send_json({"ok": False, "detail": "请粘贴至少一条代理记录且不超过 1MB"}, status=400)
+            return True
+        scheme = str(body.get("default_scheme") or "http").strip().lower()
+        if scheme not in ("http", "https", "socks5", "socks5h"):
+            scheme = "http"
+        try:
+            res = store.import_static_proxies(raw_text, default_scheme=scheme)
+        except ValueError as e:
+            handler._send_json({"ok": False, "detail": sanitize_error_text(str(e))}, status=400)
+            return True
+        stats = res.get("stats") or store.get_stats()
+        added = int(res.get("added", res.get("imported", 0))) + int(res.get("updated", 0))
+        handler._send_json({
+            "ok": True,
+            "added": added,
+            "updated": int(res.get("updated", 0)),
+            "skipped": int(res.get("skipped", 0)),
+            "invalid": len(res.get("errors") or []),
+            "total": int(stats.get("total", 0)),
+            "stats": stats,
+        })
         return True
 
     if path == "/api/agent/config":
